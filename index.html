@@ -41,9 +41,13 @@
       color: #2D4739;
     }
     section {
+      display: none;
       max-width: 1100px;
       margin: 3rem auto;
       padding: 0 1rem;
+    }
+    section.active {
+      display: block;
     }
     .hero {
       background-image: url('https://via.placeholder.com/1200x400?text=Relooking+de+meubles');
@@ -94,13 +98,13 @@
     <p>Création et relooking de meubles uniques & naturels</p>
   </header>
   <nav>
-    <a href="#accueil">Accueil</a>
-    <a href="#galerie">Galerie</a>
-    <a href="#boutique">Boutique</a>
-    <a href="#contact">Contact</a>
+    <a href="#" onclick="showSection('accueil')">Accueil</a>
+    <a href="#" onclick="showSection('galerie')">Galerie</a>
+    <a href="#" onclick="showSection('boutique')">Boutique</a>
+    <a href="#" onclick="showSection('contact')">Contact</a>
   </nav>
   <div class="hero"></div>
-  <section id="accueil">
+  <section id="accueil" class="active">
     <h2>Bienvenue !</h2>
     <p>Découvrez des meubles relookés à la main dans un style vintage, patiné ou brut, inspiré par les matières naturelles et les tendances 2025. Chaque pièce est unique, pensée pour donner du charme et une seconde vie à votre intérieur.</p>
   </section>
@@ -108,10 +112,10 @@
     <h2>Galerie avant / après</h2>
     <p>Quelques exemples de transformations...</p>
     <div class="gallery-grid">
-      <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-P4nOlg4bGUMD3Zl5aFJH2eB1/user-8W0mTO0H3dEhwWibWn8IrHUE/img-fe0a0940-757b-4fee-a9ec-ab4f046874e6.png" alt="Meuble patiné blanc">
-      <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-P4nOlg4bGUMD3Zl5aFJH2eB1/user-8W0mTO0H3dEhwWibWn8IrHUE/img-530f7e97-338d-42a1-8880-519caa99f726.png" alt="Chiffonnier relooké blanc">
-      <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-P4nOlg4bGUMD3Zl5aFJH2eB1/user-8W0mTO0H3dEhwWibWn8IrHUE/img-7cfb15bd-2a29-4753-8a2b-4452d8d2aa4d.png" alt="Meuble vert olive relooké">
-      <img src="https://oaidalleapiprodscus.blob.core.windows.net/private/org-P4nOlg4bGUMD3Zl5aFJH2eB1/user-8W0mTO0H3dEhwWibWn8IrHUE/img-da63548f-eb90-4b9a-8221-640ed83fe82c.png" alt="Armoire patinée verte">
+      <img src="https://images.unsplash.com/photo-1616627989393-449e227b07a9?w=800" alt="Meuble patiné blanc">
+      <img src="https://images.unsplash.com/photo-1622461233164-009ecf2347dc?w=800" alt="Chiffonnier relooké blanc">
+      <img src="https://images.unsplash.com/photo-1582582494700-943e13bba0cf?w=800" alt="Meuble vert olive relooké">
+      <img src="https://images.unsplash.com/photo-1616627989592-2c65c0833772?w=800" alt="Armoire patinée verte">
     </div>
   </section>
   <section id="boutique">
@@ -127,5 +131,14 @@
   <footer>
     <p>&copy; 2025 Atelier Vert Olive. Tous droits réservés.</p>
   </footer>
+  <script>
+    function showSection(id) {
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+      });
+      const target = document.getElementById(id);
+      if (target) target.classList.add('active');
+    }
+  </script>
 </body>
 </html>
