@@ -5,6 +5,7 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Atelier Vert Olive</title>
   <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <meta name="description" content="Atelier Vert Olive propose la création et le relooking artisanal de meubles vintage, patinés ou bruts. Découvrez des pièces uniques pour sublimer votre intérieur.">
   <style>
     body {
       font-family: 'Montserrat', sans-serif;
@@ -41,12 +42,17 @@
       color: #2D4739;
     }
     section {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
       display: none;
       max-width: 1100px;
       margin: 3rem auto;
       padding: 0 1rem;
     }
     section.active {
+      opacity: 1;
+      transform: translateY(0);
       display: block;
     }
     .hero {
@@ -56,14 +62,6 @@
       height: 350px;
       border-radius: 12px;
       margin: 2rem auto;
-    }
-    .cta {
-      background-color: #ffffff;
-      border-radius: 8px;
-      padding: 2rem;
-      box-shadow: 0 2px 8px rgba(0,0,0,0.1);
-      text-align: center;
-      margin-top: 2rem;
     }
     footer {
       background-color: #4A7C59;
@@ -86,18 +84,24 @@
       height: auto;
       border-radius: 8px;
       box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease;
     }
-    a {
-      color: #4A7C59;
+    .gallery-grid img:hover {
+      transform: scale(1.05);
     }
-      figure {
-      margin: 0;
-      text-align: center;
+    .cta-btn {
+      display: inline-block;
+      background-color: #4A7C59;
+      color: white;
+      text-decoration: none;
+      padding: 0.8rem 2rem;
+      border-radius: 8px;
+      margin-top: 1rem;
+      font-weight: bold;
+      transition: background-color 0.3s;
     }
-    figcaption {
-      font-size: 0.9rem;
-      color: #666;
-      margin-top: 0.5rem;
+    .cta-btn:hover {
+      background-color: #2D4739;
     }
   </style>
 </head>
@@ -113,52 +117,43 @@
     <a href="#" onclick="showSection('contact')">Contact</a>
   </nav>
   <div class="hero"></div>
+
   <section id="accueil" class="active">
     <h2>Bienvenue !</h2>
     <p>Découvrez des meubles relookés à la main dans un style vintage, patiné ou brut, inspiré par les matières naturelles et les tendances 2025. Chaque pièce est unique, pensée pour donner du charme et une seconde vie à votre intérieur.</p>
   </section>
+
   <section id="galerie">
     <h2>Galerie avant / après</h2>
-    <p>Quelques exemples de transformations...</p>
     <div class="gallery-grid">
-  <figure>
-    <img src="https://images.unsplash.com/photo-1616627989393-449e227b07a9?w=800&auto=format" alt="Meuble patiné blanc">
-    <figcaption>Meuble patiné blanc</figcaption>
-  </figure>
-  <figure>
-    <img src="https://images.unsplash.com/photo-1622461233164-009ecf2347dc?w=800&auto=format" alt="Chiffonnier relooké blanc">
-    <figcaption>Chiffonnier relooké blanc</figcaption>
-  </figure>
-  <figure>
-    <img src="https://images.unsplash.com/photo-1582582494700-943e13bba0cf?w=800&auto=format" alt="Meuble vert olive relooké">
-    <figcaption>Meuble vert olive relooké</figcaption>
-  </figure>
-  <figure>
-    <img src="https://images.unsplash.com/photo-1616627989592-2c65c0833772?w=800&auto=format" alt="Armoire patinée verte">
-    <figcaption>Armoire patinée verte</figcaption>
-  </figure>
-</div>
+      <img src="https://source.unsplash.com/800x600/?furniture,vintage" alt="Meuble patiné blanc">
+      <img src="https://source.unsplash.com/800x600/?furniture,white" alt="Chiffonnier relooké blanc">
+      <img src="https://source.unsplash.com/800x600/?furniture,olive" alt="Meuble vert olive relooké">
+      <img src="https://source.unsplash.com/800x600/?furniture,green" alt="Armoire patinée verte">
+    </div>
   </section>
+
   <section id="boutique">
     <h2>Meubles disponibles</h2>
-    <p>Commandez sur <a href="https://www.selency.fr" target="_blank">ma boutique Selency</a> ou contactez-moi pour une création personnalisée.</p>
+    <a href="https://www.selency.fr" class="cta-btn" target="_blank">Visitez ma boutique Selency</a>
   </section>
-  <section id="contact" class="cta">
+
+  <section id="contact">
     <h2>Me contacter</h2>
     <p>Vous avez une question, une idée ou un meuble à relooker ?</p>
-    <p><strong>Email :</strong> contact@atelier-vert-olive.fr</p>
+    <a href="mailto:contact@atelier-vert-olive.fr" class="cta-btn">Envoyez-moi un mail</a>
     <p><strong>Instagram :</strong> @atelier.vert.olive</p>
   </section>
+
   <footer>
     <p>&copy; 2025 Atelier Vert Olive. Tous droits réservés.</p>
   </footer>
+
   <script>
     function showSection(id) {
-      document.querySelectorAll('section').forEach(section => {
-        section.classList.remove('active');
-      });
-      const target = document.getElementById(id);
-      if (target) target.classList.add('active');
+      document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
+      document.getElementById(id).classList.add('active');
+      document.getElementById(id).scrollIntoView({ behavior: 'smooth' });
     }
   </script>
 </body>
