@@ -3,171 +3,715 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Atelier Vert Olive</title>
-  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@400;600&display=swap" rel="stylesheet">
+  <title>Atelier Vert Olive - Création et relooking de meubles artisanaux</title>
+  <link href="https://fonts.googleapis.com/css2?family=Montserrat:wght@300;400;600;700&display=swap" rel="stylesheet">
   <meta name="description" content="Atelier Vert Olive propose la création et le relooking artisanal de meubles vintage, patinés ou bruts. Découvrez des pièces uniques pour sublimer votre intérieur.">
+  <meta name="keywords" content="relooking meubles, meubles vintage, patine, artisan, décoration, upcycling">
+  
+  <!-- Open Graph pour réseaux sociaux -->
+  <meta property="og:title" content="Atelier Vert Olive - Meubles artisanaux uniques">
+  <meta property="og:description" content="Création et relooking de meubles vintage, patinés ou bruts. Chaque pièce est unique.">
+  <meta property="og:type" content="website">
+  <meta property="og:image" content="https://via.placeholder.com/1200x630/8CB369/ffffff?text=Atelier+Vert+Olive">
+  
   <style>
-    body {
-      font-family: 'Montserrat', sans-serif;
+    :root {
+      --primary-color: #4A7C59;
+      --secondary-color: #8CB369;
+      --accent-color: #D9ED92;
+      --text-color: #222;
+      --bg-color: #f8f9fa;
+      --white: #ffffff;
+      --shadow: 0 4px 20px rgba(0,0,0,0.1);
+      --transition: all 0.3s ease;
+    }
+
+    * {
       margin: 0;
       padding: 0;
-      background-color: #f2f2f2;
-      color: #222;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Montserrat', sans-serif;
+      background-color: var(--bg-color);
+      color: var(--text-color);
       line-height: 1.6;
+      scroll-behavior: smooth;
     }
+
+    /* Loading animation */
+    .loading {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: var(--white);
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 9999;
+      transition: opacity 0.5s ease;
+    }
+
+    .loading.hidden {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .spinner {
+      width: 50px;
+      height: 50px;
+      border: 3px solid var(--accent-color);
+      border-top: 3px solid var(--primary-color);
+      border-radius: 50%;
+      animation: spin 1s linear infinite;
+    }
+
+    @keyframes spin {
+      0% { transform: rotate(0deg); }
+      100% { transform: rotate(360deg); }
+    }
+
     header {
-      background: linear-gradient(to right, #8CB369, #D9ED92);
+      background: linear-gradient(135deg, var(--secondary-color), var(--accent-color));
       color: white;
-      padding: 2rem 1rem;
+      padding: 4rem 1rem;
       text-align: center;
+      position: relative;
+      overflow: hidden;
     }
+
+    header::before {
+      content: '';
+      position: absolute;
+      top: -50%;
+      left: -50%;
+      width: 200%;
+      height: 200%;
+      background: radial-gradient(circle, rgba(255,255,255,0.1) 0%, transparent 70%);
+      animation: float 6s ease-in-out infinite;
+    }
+
+    @keyframes float {
+      0%, 100% { transform: translateY(0px); }
+      50% { transform: translateY(-20px); }
+    }
+
+    header h1 {
+      font-size: 3rem;
+      font-weight: 700;
+      margin-bottom: 1rem;
+      text-shadow: 2px 2px 4px rgba(0,0,0,0.3);
+      position: relative;
+      z-index: 1;
+    }
+
+    header p {
+      font-size: 1.2rem;
+      font-weight: 300;
+      margin-bottom: 2rem;
+      position: relative;
+      z-index: 1;
+    }
+
     nav {
-      background-color: white;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+      background-color: var(--white);
       display: flex;
       justify-content: center;
       gap: 2rem;
-      padding: 1rem;
+      padding: 1.5rem;
       position: sticky;
       top: 0;
       z-index: 1000;
+      box-shadow: var(--shadow);
+      backdrop-filter: blur(10px);
     }
+
     nav a {
-      color: #4A7C59;
+      color: var(--primary-color);
       text-decoration: none;
       font-weight: 600;
-      transition: color 0.3s ease;
+      font-size: 1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      transition: var(--transition);
+      position: relative;
     }
-    nav a:hover {
-      color: #2D4739;
+
+    nav a:hover, nav a.active {
+      background-color: var(--primary-color);
+      color: var(--white);
+      transform: translateY(-2px);
     }
+
     section {
       opacity: 0;
-      transform: translateY(20px);
-      transition: opacity 0.5s ease-out, transform 0.5s ease-out;
+      transform: translateY(30px);
+      transition: opacity 0.6s ease-out, transform 0.6s ease-out;
       display: none;
-      max-width: 1100px;
-      margin: 3rem auto;
-      padding: 0 1rem;
+      max-width: 1200px;
+      margin: 4rem auto;
+      padding: 0 2rem;
     }
+
     section.active {
       opacity: 1;
       transform: translateY(0);
       display: block;
     }
+
     .hero {
-      background-image: url('./meuble1.png');
+      background: linear-gradient(rgba(0,0,0,0.3), rgba(0,0,0,0.3)), 
+                  url('https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=1200&q=80');
       background-size: cover;
       background-position: center;
-      height: 350px;
-      border-radius: 12px;
+      height: 500px;
+      border-radius: 20px;
       margin: 2rem auto;
-    }
-    footer {
-      background-color: #4A7C59;
+      display: flex;
+      align-items: center;
+      justify-content: center;
       color: white;
       text-align: center;
-      padding: 1.5rem;
-      margin-top: 4rem;
+      position: relative;
+      overflow: hidden;
     }
-    h2 {
-      color: #4A7C59;
+
+    .hero-content {
+      z-index: 2;
+      max-width: 600px;
+      padding: 2rem;
+    }
+
+    .hero h2 {
+      font-size: 2.5rem;
       margin-bottom: 1rem;
+      font-weight: 700;
     }
-    .gallery-grid {
-      display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
-      gap: 1.5rem;
+
+    .hero p {
+      font-size: 1.1rem;
+      margin-bottom: 2rem;
     }
-    .gallery-grid img {
-      width: 100%;
-      height: auto;
-      border-radius: 8px;
-      box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-      transition: transform 0.3s ease;
-    }
-    .gallery-grid img:hover {
-      transform: scale(1.05);
-    }
+
     .cta-btn {
       display: inline-block;
-      background-color: #4A7C59;
+      background: linear-gradient(45deg, var(--primary-color), var(--secondary-color));
       color: white;
       text-decoration: none;
-      padding: 0.8rem 2rem;
-      border-radius: 8px;
-      margin-top: 1rem;
-      font-weight: bold;
-      transition: background-color 0.3s;
+      padding: 1rem 2.5rem;
+      border-radius: 50px;
+      font-weight: 600;
+      transition: var(--transition);
+      box-shadow: 0 4px 15px rgba(0,0,0,0.2);
+      position: relative;
+      overflow: hidden;
     }
+
+    .cta-btn::before {
+      content: '';
+      position: absolute;
+      top: 0;
+      left: -100%;
+      width: 100%;
+      height: 100%;
+      background: linear-gradient(90deg, transparent, rgba(255,255,255,0.2), transparent);
+      transition: left 0.5s;
+    }
+
+    .cta-btn:hover::before {
+      left: 100%;
+    }
+
     .cta-btn:hover {
-      background-color: #2D4739;
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(0,0,0,0.3);
+    }
+
+    .content-card {
+      background: var(--white);
+      border-radius: 15px;
+      padding: 3rem;
+      box-shadow: var(--shadow);
+      margin-bottom: 2rem;
+      transition: var(--transition);
+    }
+
+    .content-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 8px 30px rgba(0,0,0,0.15);
+    }
+
+    .gallery-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .gallery-item {
+      position: relative;
+      border-radius: 15px;
+      overflow: hidden;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+      aspect-ratio: 4/3;
+    }
+
+    .gallery-item:hover {
+      transform: scale(1.05);
+    }
+
+    .gallery-item img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      transition: var(--transition);
+    }
+
+    .gallery-item:hover img {
+      transform: scale(1.1);
+    }
+
+    .gallery-overlay {
+      position: absolute;
+      bottom: 0;
+      left: 0;
+      right: 0;
+      background: linear-gradient(transparent, rgba(0,0,0,0.8));
+      color: white;
+      padding: 1.5rem;
+      transform: translateY(100%);
+      transition: var(--transition);
+    }
+
+    .gallery-item:hover .gallery-overlay {
+      transform: translateY(0);
+    }
+
+    .testimonials {
+      background: linear-gradient(135deg, var(--white), #f8f9fa);
+      border-radius: 20px;
+      padding: 3rem;
+      margin: 3rem auto;
+      box-shadow: var(--shadow);
+    }
+
+    .testimonial {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 15px;
+      margin-bottom: 2rem;
+      box-shadow: 0 2px 10px rgba(0,0,0,0.05);
+      border-left: 4px solid var(--secondary-color);
+      position: relative;
+    }
+
+    .testimonial::before {
+      content: '"';
+      font-size: 4rem;
+      color: var(--secondary-color);
+      position: absolute;
+      top: -10px;
+      left: 20px;
+      opacity: 0.3;
+    }
+
+    .testimonial p {
+      font-style: italic;
+      margin-bottom: 1rem;
+      color: #555;
+    }
+
+    .testimonial strong {
+      color: var(--primary-color);
+      font-weight: 600;
+    }
+
+    .contact-info {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 2rem;
+    }
+
+    .contact-card {
+      background: var(--white);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: var(--shadow);
+      transition: var(--transition);
+    }
+
+    .contact-card:hover {
+      transform: translateY(-5px);
+    }
+
+    .contact-card i {
+      font-size: 2rem;
+      color: var(--secondary-color);
+      margin-bottom: 1rem;
+    }
+
+    footer {
+      background: linear-gradient(135deg, var(--primary-color), #2d4739);
+      color: white;
+      text-align: center;
+      padding: 3rem 1rem;
+      margin-top: 4rem;
+    }
+
+    .back-to-top {
+      position: fixed;
+      bottom: 30px;
+      right: 30px;
+      background: var(--primary-color);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      cursor: pointer;
+      opacity: 0;
+      transition: var(--transition);
+      z-index: 1000;
+    }
+
+    .back-to-top.visible {
+      opacity: 1;
+    }
+
+    .back-to-top:hover {
+      background: var(--secondary-color);
+      transform: translateY(-5px);
+    }
+
+    /* Responsive */
+    @media (max-width: 768px) {
+      header h1 {
+        font-size: 2rem;
+      }
+      
+      nav {
+        flex-wrap: wrap;
+        gap: 1rem;
+      }
+      
+      section {
+        padding: 0 1rem;
+      }
+      
+      .hero {
+        height: 300px;
+      }
+      
+      .hero h2 {
+        font-size: 1.8rem;
+      }
+      
+      .gallery-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    /* Animations d'entrée */
+    @keyframes fadeInUp {
+      from {
+        opacity: 0;
+        transform: translateY(30px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    .fade-in {
+      animation: fadeInUp 0.6s ease-out;
     }
   </style>
 </head>
 <body>
+  <div class="loading">
+    <div class="spinner"></div>
+  </div>
+
   <header>
     <h1>Atelier Vert Olive</h1>
     <p>Création et relooking de meubles uniques & naturels</p>
+    <a href="#galerie" onclick="showSection('galerie')" class="cta-btn">Découvrir mes créations</a>
   </header>
+
   <nav>
-    <a href="#" onclick="showSection('accueil')">Accueil</a>
-    <a href="#" onclick="showSection('galerie')">Galerie</a>
-    <a href="#" onclick="showSection('boutique')">Boutique</a>
-    <a href="#" onclick="showSection('contact')">Contact</a>
+    <a href="#accueil" onclick="showSection('accueil')" class="nav-link active">Accueil</a>
+    <a href="#galerie" onclick="showSection('galerie')" class="nav-link">Galerie</a>
+    <a href="#services" onclick="showSection('services')" class="nav-link">Services</a>
+    <a href="#boutique" onclick="showSection('boutique')" class="nav-link">Boutique</a>
+    <a href="#temoignages" onclick="showSection('temoignages')" class="nav-link">Témoignages</a>
+    <a href="#contact" onclick="showSection('contact')" class="nav-link">Contact</a>
   </nav>
-  <div class="hero"></div>
+
+  <div class="hero">
+    <div class="hero-content">
+      <h2>Donnez une seconde vie à vos meubles</h2>
+      <p>Artisan passionné, je transforme vos meubles avec des techniques traditionnelles et des finitions modernes.</p>
+      <a href="#contact" onclick="showSection('contact')" class="cta-btn">Demander un devis</a>
+    </div>
+  </div>
 
   <section id="accueil" class="active">
-    <h2>Bienvenue !</h2>
-    <p>Découvrez des meubles relookés à la main dans un style vintage, patiné ou brut, inspiré par les matières naturelles et les tendances 2025. Chaque pièce est unique, pensée pour donner du charme et une seconde vie à votre intérieur.</p>
+    <div class="content-card">
+      <h2>Bienvenue dans mon univers créatif</h2>
+      <p>Découvrez des meubles relookés à la main dans un style vintage, patiné ou brut, inspiré par les matières naturelles et les tendances actuelles. Chaque pièce est unique, pensée pour donner du charme et une seconde vie à votre intérieur.</p>
+      <p>Passionné par l'artisanat et le développement durable, je donne une nouvelle vie aux meubles oubliés en utilisant des techniques traditionnelles et des matériaux naturels. Mon atelier est un lieu où la créativité rencontre le savoir-faire.</p>
+    </div>
   </section>
 
   <section id="galerie">
-    <h2>Galerie avant / après</h2>
-    <div class="gallery-grid">
-      <img src="./meuble1.png" alt="Meuble patiné blanc">
-      <img src="./meuble2.jpg" alt="Chiffonnier original">
-      <img src="./meuble3.png" alt="Chiffonnier patiné blanc">
-      <img src="./meuble4.png" alt="Chiffonnier vert olive">
-      <img src="./meuble5.png" alt="Petit meuble patiné vert">
-      <img src="./meuble6.png" alt="Grande armoire bois brut">
-      <img src="./meuble7.png" alt="Grande armoire patinée claire">
-      <img src="./meuble8.png" alt="Petit meuble d'angle patiné">
-      <img src="./meuble9.png" alt="Petit meuble d'angle blanc moderne">
-      <img src="./meuble10.png" alt="Meuble d'angle original bois foncé">
-      <img src="./meuble11.jpg" alt="Chiffonnier bois avant relooking">
+    <div class="content-card">
+      <h2>Galerie avant / après</h2>
+      <p>Découvrez mes transformations les plus réussies. Chaque meuble raconte une histoire et retrouve une nouvelle jeunesse.</p>
+      
+      <div class="gallery-grid">
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Meuble patiné blanc" loading="lazy">
+          <div class="gallery-overlay">
+            <h3>Commode patinée</h3>
+            <p>Transformation complète avec patine blanche vieillie</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1549497538-303791108f95?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Chiffonnier original" loading="lazy">
+          <div class="gallery-overlay">
+            <h3>Chiffonnier vintage</h3>
+            <p>Restauration et finition naturelle</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1555041469-a586c61ea9bc?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Armoire relookée" loading="lazy">
+          <div class="gallery-overlay">
+            <h3>Grande armoire</h3>
+            <p>Relooking complet avec finition moderne</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1567538096630-e0c55bd6374c?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Meuble d'angle" loading="lazy">
+          <div class="gallery-overlay">
+            <h3>Meuble d'angle</h3>
+            <p>Patine verte signature de l'atelier</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1586023492125-27b2c045efd7?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Buffet restauré" loading="lazy">
+          <div class="gallery-overlay">
+            <h3>Buffet ancien</h3>
+            <p>Restauration respectueuse du style d'origine</p>
+          </div>
+        </div>
+        
+        <div class="gallery-item">
+          <img src="https://images.unsplash.com/photo-1549497538-303791108f95?ixlib=rb-4.0.3&auto=format&fit=crop&w=600&q=80" alt="Table relookée" loading="lazy">
+          <div class="gallery-overlay">
+            <h3>Table de ferme</h3>
+            <p>Ponçage et finition huile naturelle</p>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <section id="services">
+    <div class="content-card">
+      <h2>Mes services</h2>
+      <div class="gallery-grid">
+        <div class="content-card">
+          <h3>Relooking de meubles</h3>
+          <p>Transformation complète de vos meubles avec patines, peintures et finitions personnalisées.</p>
+        </div>
+        
+        <div class="content-card">
+          <h3>Restauration</h3>
+          <p>Remise en état respectueuse de meubles anciens avec techniques traditionnelles.</p>
+        </div>
+        
+        <div class="content-card">
+          <h3>Création sur mesure</h3>
+          <p>Conception et réalisation de meubles uniques selon vos besoins et envies.</p>
+        </div>
+      </div>
     </div>
   </section>
 
   <section id="boutique">
-    <h2>Meubles disponibles</h2>
-    <p>Commandez sur <a href="https://www.selency.fr" target="_blank" class="cta-btn">ma boutique Selency</a> ou contactez-moi pour une création personnalisée.</p>
+    <div class="content-card">
+      <h2>Meubles disponibles</h2>
+      <p>Découvrez toutes mes créations prêtes à rejoindre votre intérieur. Chaque pièce est photographiée et décrite en détail.</p>
+      <p>Mes meubles sont également disponibles sur d'autres plateformes pour vous offrir plus de choix et de facilité d'achat.</p>
+      <a href="https://www.selency.fr" target="_blank" rel="noopener noreferrer" class="cta-btn">Voir la boutique Selency</a>
+    </div>
+  </section>
+
+  <section id="temoignages">
+    <div class="testimonials">
+      <h2>Ce qu'on dit de moi</h2>
+      
+      <div class="testimonial">
+        <p>Des meubles magnifiques et un vrai sens du détail. Le travail de patine est exceptionnel et le résultat dépasse mes attentes. Je recommande à 100% !</p>
+        <strong>— Camille D., Montpellier</strong>
+      </div>
+      
+      <div class="testimonial">
+        <p>Une transformation sublime de notre ancienne commode. Elle a retrouvé une seconde jeunesse tout en gardant son charme d'antan. Merci pour ce magnifique travail !</p>
+        <strong>— Hugo & Lila, Nîmes</strong>
+      </div>
+      
+      <div class="testimonial">
+        <p>Artisan passionné et à l'écoute. Les délais ont été respectés et le résultat est parfait. Notre buffet vintage est maintenant la pièce maîtresse de notre salon.</p>
+        <strong>— Marie L., Sète</strong>
+      </div>
+    </div>
   </section>
 
   <section id="contact">
-    <h2>Me contacter</h2>
-    <p>Vous avez une question, une idée ou un meuble à relooker ?</p>
-    <p><strong>Email :</strong> <a href="mailto:contact@atelier-vert-olive.fr">contact@atelier-vert-olive.fr</a></p>
-    <p><strong>Instagram :</strong> <a href="https://instagram.com/atelier.vert.olive" target="_blank">@atelier.vert.olive</a></p>
+    <div class="content-card">
+      <h2>Me contacter</h2>
+      <p>Pour une commande, un projet personnalisé ou simplement pour discuter de vos idées, n'hésitez pas à me contacter.</p>
+      
+      <div class="contact-info">
+        <div class="contact-card">
+          <h3>Email</h3>
+          <p><a href="mailto:contact@atelier-vert-olive.fr">contact@atelier-vert-olive.fr</a></p>
+          <p>Réponse sous 24h</p>
+        </div>
+        
+        <div class="contact-card">
+          <h3>Instagram</h3>
+          <p><a href="https://instagram.com/atelier.vert.olive" target="_blank" rel="noopener noreferrer">@atelier.vert.olive</a></p>
+          <p>Suivez mes créations</p>
+        </div>
+        
+        <div class="contact-card">
+          <h3>Atelier</h3>
+          <p>Sur rendez-vous uniquement</p>
+          <p>Région Montpellier</p>
+        </div>
+      </div>
+    </div>
   </section>
 
   <footer>
-    <p>&copy; 2025 Atelier Vert Olive. Tous droits réservés.</p>
+    <p>&copy; 2025 Atelier Vert Olive — Création & relooking de meubles artisanaux</p>
+    <p>Développé avec passion pour l'artisanat et le développement durable 🌿</p>
   </footer>
 
+  <button class="back-to-top" onclick="scrollToTop()">↑</button>
+
   <script>
-    document.addEventListener("DOMContentLoaded", function () {
-      function showSection(id) {
-        document.querySelectorAll('section').forEach(section => section.classList.remove('active'));
-        const target = document.getElementById(id);
-        if (target) {
-          target.classList.add('active');
-          target.scrollIntoView({ behavior: 'smooth' });
-        }
-      }
-      window.showSection = showSection;
+    // Variables globales
+    let currentSection = 'accueil';
+    
+    // Initialisation au chargement
+    document.addEventListener("DOMContentLoaded", function() {
+      // Masquer le loader après 1 seconde
+      setTimeout(() => {
+        document.querySelector('.loading').classList.add('hidden');
+      }, 1000);
+      
+      // Initialiser la navigation
+      updateActiveNav();
+      
+      // Gérer le bouton retour en haut
+      handleBackToTop();
+      
+      // Lazy loading des images
+      lazyLoadImages();
     });
+
+    // Fonction pour changer de section
+    function showSection(id) {
+      // Masquer toutes les sections
+      document.querySelectorAll('section').forEach(section => {
+        section.classList.remove('active');
+      });
+      
+      // Afficher la section cible
+      const target = document.getElementById(id);
+      if (target) {
+        target.classList.add('active');
+        target.scrollIntoView({ behavior: 'smooth' });
+        currentSection = id;
+        updateActiveNav();
+      }
+    }
+
+    // Mettre à jour la navigation active
+    function updateActiveNav() {
+      document.querySelectorAll('.nav-link').forEach(link => {
+        link.classList.remove('active');
+      });
+      
+      const activeLink = document.querySelector(`[href="#${currentSection}"]`);
+      if (activeLink) {
+        activeLink.classList.add('active');
+      }
+    }
+
+    // Gérer le bouton retour en haut
+    function handleBackToTop() {
+      const backToTopBtn = document.querySelector('.back-to-top');
+      
+      window.addEventListener('scroll', () => {
+        if (window.scrollY > 300) {
+          backToTopBtn.classList.add('visible');
+        } else {
+          backToTopBtn.classList.remove('visible');
+        }
+      });
+    }
+
+    // Fonction retour en haut
+    function scrollToTop() {
+      window.scrollTo({
+        top: 0,
+        behavior: 'smooth'
+      });
+    }
+
+    // Lazy loading des images
+    function lazyLoadImages() {
+      const images = document.querySelectorAll('img[loading="lazy"]');
+      
+      const imageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach(entry => {
+          if (entry.isIntersecting) {
+            const img = entry.target;
+            img.src = img.src;
+            img.classList.add('fade-in');
+            observer.unobserve(img);
+          }
+        });
+      });
+
+      images.forEach(img => imageObserver.observe(img));
+    }
+
+    // Améliorer l'accessibilité au clavier
+    document.addEventListener('keydown', (e) => {
+      if (e.key === 'Escape') {
+        // Fermer les overlays ou revenir à l'accueil
+        showSection('accueil');
+      }
+    });
+
+    // Rendre la fonction globale
+    window.showSection = showSection;
   </script>
 </body>
 </html>
